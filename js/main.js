@@ -102,22 +102,23 @@ document.getElementById('tryAgain').addEventListener('click', ()=>{
 	correctProbe.hide(); 
 });
 
-// Url to send data to our google form
-const url = 'https://script.google.com/macros/s/AKfycbzcDtks2wWQFgxzwN1ZuN27xsdmIYGPqc7kZRHZXBCEX5wy_86x/exec';
+// Url to send data to our google form (does not work at the moment)
+// const url = 'https://script.google.com/macros/s/AKfycbzcDtks2wWQFgxzwN1ZuN27xsdmIYGPqc7kZRHZXBCEX5wy_86x/exec';
 
-document.getElementById('accept').addEventListener('click', () => {
-	fetch(url, {
-			method: 'POST',
-			body: JSON.stringify({orientation: 0, position: 0}), 
-			//headers: {"Content-Type": "application/json; charset=utf-8"},
-			mode: 'no-cors'
-		}).then( (res) => {
-			console.log(res);
-		})
-		console.log('accept clicked');
-})
+// document.getElementById('accept').addEventListener('click', () => {
+	
+// 	fetch(url, {
+// 			method: 'POST',
+// 			body: JSON.stringify({orientation: 0, position: 0}), 
+// 			mode: 'no-cors'
+// 		}).then( (res) => {
+// 			console.log(res);
+// 		})
+// 		console.log('accept clicked');
+// })
 
 correctButton.addEventListener('click', ()=>{
+	
 	if(correct === false){
 		displayBg.style.borderColor = "#0ece0e";
 		objectiveSign.childNodes[0].childNodes[0].textContent = 'Apical Four Chamber';
@@ -172,16 +173,8 @@ let count = 0;
 let res = {};
 
 function updateProgress(){
+	
 	count++
-
-	/*
-	if(loadingAnimation === false){
-		loadingAnimation = true;
-		loadingBar.animate(count/objects, {duration: 400}, () => {
-			loadingAnimation = false;
-		});
-	}*/
-
 	loadingBar.animate(count/objects, {duration: 100});
 
 	if(count === 51){
@@ -190,6 +183,7 @@ function updateProgress(){
 			ctx.putImageData(imageData, 0, 0);
 		}
 
+		// Run the application
 		run();
 		document.getElementById('loadingScreen').style.display = 'none';
 		document.getElementById('simulator').style.setProperty('visibility', 'visible');
@@ -341,9 +335,6 @@ function run() {
 	probe = new Probe(probeGeometry1, scene, 0xa1a2a3, 0x2861bf);
 	correctProbe = new Probe(probeGeometry2, scene, 0xece0e, 0xece0e);
 	//heart = new SectorView(res.frames, {x: xDim, y: yDim, z: zDim});
-
-	//torso.shiftY(initYPos);
-	//probe.shiftY(initYPos);
 
 	// Place the correct probe example on body
 	correctProbe.setPosition(apicalRegion.center);

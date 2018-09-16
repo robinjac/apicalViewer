@@ -73,7 +73,7 @@ export function createGUI(){
 
     const buttons = gui.domElement.getElementsByClassName('property-name');
 
-    buttons[0].innerHTML = '&nbsp<i class="fas fa-arrows-alt-v"></i> &nbsp Pitch';
+    buttons[0].innerHTML = '<i class="fas fa-arrows-alt-v"></i> &nbsp Pitch';
     buttons[1].innerHTML = '<i class="fas fa-arrows-alt-h"></i> &nbsp Tilt';
     buttons[2].innerHTML = '<i class="fas fa-sync-alt"></i> &nbsp Rotate';
     buttons[3].innerHTML = '<i class="fas fa-lock"></i> &nbsp Hold';

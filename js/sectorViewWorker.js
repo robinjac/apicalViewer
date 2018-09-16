@@ -15,10 +15,12 @@ import f38 from '../files/frames/vol38.bin';frameURL.push(f38);import f39 from '
 import f42 from '../files/frames/vol42.bin';frameURL.push(f42);import f43 from '../files/frames/vol43.bin';frameURL.push(f43);import f44 from '../files/frames/vol44.bin';frameURL.push(f44);import f45 from '../files/frames/vol45.bin';frameURL.push(f45);
 import f46 from '../files/frames/vol46.bin';frameURL.push(f46);import f47 from '../files/frames/vol47.bin';frameURL.push(f47);
 
+//import frames from '../files/frames';
+
 import pako from 'pako';
 
 // Number of frames are 48, read from dicom file
-const volume = Array(48);
+const volume = new Array(48);
 
 // Volume dimension are read from the dicom file
 const xDim = 140, yDim = 203, zDim = 140, yzDim = yDim*zDim,
@@ -29,6 +31,8 @@ let xScale, yScale, zScale,
     buf, buf8, data,
     shiftX,
     start, end;
+
+// Length of one volume array 4007300
 
 for(let n = 0; n < 48; n++){
   fetch(frameURL[n])

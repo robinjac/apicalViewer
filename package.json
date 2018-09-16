@@ -4,11 +4,10 @@
   "description": "",
   "main": "",
   "dependencies": {
-    "dicom-parser": "^1.7.6",
+    "main.js": "0.0.1",
     "pako": "^1.0.6",
-    "three": "^0.94.0",
-    "three-orbitcontrols": "^2.1.2",
-    "three-stl-loader": "^1.0.6"
+    "three": "^0.96.0",
+    "three-orbitcontrols": "^2.1.2"
   },
   "devDependencies": {},
   "scripts": {
