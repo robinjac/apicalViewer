@@ -9,8 +9,8 @@
 		overflow: hidden;
 	}
 
-	#container.adjust-width{
-		width: 50%;
+	#bodyView.adjust-width{
+		width: 60%;
 	}
 
 	#viewport {
@@ -24,6 +24,7 @@
 
 	#result {
 		position: absolute;
+		background-color: transparent;
 		top: 0;
 		left: 0;
 		height: 32%;
@@ -60,22 +61,31 @@
 		left: calc(50% - 178px);
 		transform: scale(0.85);
 	}
+
+	#footer {
+		position: absolute; 
+		bottom: 10px; 
+		left: calc(50% - 140px);
+		width: 280px;
+		color: white;
+		text-align: center; 
+		font-size: 10px;
+	}
 }
 
 @media screen and (orientation: landscape){
 
 	.body-view{
 		position: absolute;
+		top: 0;
 		left: 0;
-		bottom: 0;
 		width: 50%;
 		height: 100%;
 		overflow: hidden;
 	}
 
-	#container.adjust-width{
-		height: 54%;
-		bottom: 11%;
+	#bodyView.adjust-width{
+		left: 12.5%;
 	}
 
 	#viewport {
@@ -88,20 +98,21 @@
 
 	#result {
 		position: absolute;
+		background-color: transparent;
 		top: 0;
 		left: 0;
-		width: 50%;
+		height: 100%;
 		padding-left: 10px;
 		overflow: hidden;
 		color: white;
 	}
 
 	#result.show{
-		height: 35%;
+		width: 25%;
 	}
 
 	#result.hide{
-		height: 0;
+		width: 0;
 	}
 
 	#resultButtons {
@@ -123,6 +134,16 @@
 		top: calc(50% - 160px);
 		left: calc(50% - 178px);
 		transform: scale(0.7);
+	}
+
+	
+	#footer {
+		position: absolute; 
+		bottom: 10px; 
+		left: 20px;
+		width: 320px; 
+		color: white; 
+		font-size: 10px;
 	}
 }
 

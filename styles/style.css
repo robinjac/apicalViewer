@@ -1,4 +1,3 @@
-
 body{
 	background-color: #353535;
 }
@@ -134,29 +133,48 @@ body{
 	}
 }
 
-/*button styling*/
-.left-button{
-	background: #f2373d; 
-	color: white;
-	margin: 4px 0 4px 4px;
+button {
+	border: 1px solid white;
+	border-radius: 15px;
+	width: 90px;
+	height: 30px;
+	font-size: 12px;
+	cursor: pointer;
+	outline: 0;
+	transition: background-color 0.2s ease-in-out;
 }
 
-.middle-button{
-	background: #f2373d; 
+/* Button styling */
+#tryAgain{
+	background-color: #f2373d; 
 	color: white;
-	margin: 4px 0 4px 0;
+	margin: 7px 0 4px 6px;
+}
+
+#accept {
+	background-color: #f2373d2a; 
+	color: white;
+	margin: 7px 0 4px 0;
+	cursor: not-allowed;
+}
+
+#accept:hover, #tryAgain:hover {
+	background-color: #c51b1e; 
 }
 
 #correct{
-	background: rgba(14, 206, 14, 0.25); 
+	background-color: rgba(14, 206, 14, 0.25); 
 	color: white;
-	margin: 4px 4px 4px 0;
-	width: 80px
+	margin: 7px 6px 4px 0;
+}
+
+#correct:hover {
+	background-color: rgba(11, 99, 11, 0.562);
 }
 
 #gui{
 	position:absolute;
-	transition: all 0.3s ease-in-out;
+	transition: opacity 0.3s ease-in-out;
 }
 
 #gui.hide{

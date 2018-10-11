@@ -1,4 +1,4 @@
-import { createAndInitializefeedback } from './graphics.js';
+import { createAndInitializefeedback } from './utilities';
 
 function showScore(score, bar){
 	const animate = {
@@ -26,7 +26,7 @@ function showResult(result, type, feedback){
 	}else if(type === 'position'){
 		showScore(result.position, feedback.positionBar);
 	}else{
-		throw " Argument type must be either 'orientation' or 'position'."
+		throw "Argument type must be either 'orientation' or 'position'."
 	}
 }
 
@@ -34,6 +34,7 @@ export class Judge {
     constructor(Pitch, Tilt, Rotate, X, Y){
         this.feedback = createAndInitializefeedback();
 
+		// Assumes we have the following divs already initialized in the document
 		this.res = document.getElementById('result');
 		this.resBtn = document.getElementById('resultButtons');
 		this.gui = document.getElementById('gui');
@@ -62,7 +63,7 @@ export class Judge {
 			this.gui.className = 'hide';
 			
 			const result = this.score(pitch, tilt, rotate, x_0, y_0);
-			console.log("orient: ", result.orientation, "pos: ", result.position);
+			console.log("orient:", result.orientation, "pos:", result.position);
 			try{
 				for(let type in result){
 					showResult(result, type, this.feedback);

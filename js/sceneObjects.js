@@ -5,7 +5,7 @@ import { Mesh,
          DoubleSide 
         } from 'three';
 
-import {DegToRad} from './util.js';
+import {DegToRad} from './utilities.js';
 
 export class Torso {
 

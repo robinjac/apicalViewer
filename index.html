@@ -13,10 +13,10 @@
 	<!-- Font awesome-->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
-	<!--own stylesheet-->
-	<link rel="stylesheet" href="style.css">
-	<link rel="stylesheet" media='screen and (min-width: 723px)' href="layoutLarge.css">
-	<link rel="stylesheet" media='screen and (max-width: 722px)' href="layoutSmall.css">
+	<!-- Custom styles -->
+	<link rel="stylesheet" href="./styles/style.css">
+	<link rel="stylesheet" media='screen and (min-width: 723px)' href="./styles/layoutLarge.css">
+	<link rel="stylesheet" media='screen and (max-width: 722px)' href="./styles/layoutSmall.css">
 	
   </head>
   
@@ -24,9 +24,13 @@
 		<!-- loading view -->
 		<div id="loadingScreen" style="position: absolute; top: 50%; left: 50%"></div>
 		
+		<footer id="footer">
+            Version: 1.0.0, Author: Robin Jacobsson 2018
+		</footer>
+		
 		<div id="simulator" style="visibility: hidden">
 			<!-- body view -->
-			<div id="container" class="body-view"></div>
+			<div id="bodyView" class="body-view"></div>
 
 			<!-- slice view -->
 			<div id="viewport">
@@ -46,7 +50,6 @@
 			<div id="gui" class="show"></div>
 
 			<div id="result" class="hide">
-				<!--<center><div style="padding: 1% 0% 0% 0%"><h4>Feedback</h4></div></center>-->
 				<center><h4 class="feedback-text">Feedback</h4></center>
 				<div id="orientationText">Orientation:</div>
 				<div id="orientation"></div>
@@ -56,11 +59,11 @@
 
 			<div id="resultButtons" class="hide">
 				<div style="float:left">
-					<button id="tryAgain" class="w3-button w3-tiny w3-border w3-border-white w3-round-medium left-button"><i class="fas fa-redo-alt"></i> Retry</button>
-					<button id="accept" class="w3-button w3-tiny w3-border w3-border-white w3-round-medium middle-button"><i class="fas fa-check-double"></i> Accept</button>
+					<button id="tryAgain"><i class="fas fa-redo-alt"></i> Retry</button>
+					<button id="accept"><i class="fas fa-check-double"></i> Accept</button>
 				</div>
 				<div style="float:right">
-					<button id="correct" class="w3-button w3-tiny w3-border w3-border-white w3-round-medium"><i class="fas fa-check-circle"></i> Correct</button>
+					<button id="correct"><i class="fas fa-check-circle"></i> Correct</button>
 				</div>
 			</div>
 

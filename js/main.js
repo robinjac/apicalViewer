@@ -6,30 +6,29 @@ import { Vector2,
          Euler } from 'three';
 
 import { DegToRad, 
-         xDim, yDim, zDim, 
+         xDim, zDim, 
          numOfFrames,
          createCamera,
          createControls,
          createRenderer,
          createScene,
-         createGUI } from './util.js'; 
+		 createGUI,
+		 drawBorder,
+		 createLoadingBar } from './utilities'; 
 
-import { Judge } from './feedback.js';
+import { Judge } from './feedback';
 
-import resources from './loadResources.js';
-//import SectorView from './sectorView.js';
-import { Torso, Probe } from './sceneObjects.js';
-import { createLoadingBar } from './graphics.js';
-import { drawBorder } from './graphics.js';
+import resources from './loadResources';
+import { Torso, Probe } from './sceneObjects';
 
 let mouseDown = false, mouseGrab = false, onHold = false, correct = false, lock = false,
     x_0 = 0, y_0 = 0, z_0 = 0,
     tilt = 0, pitch = 0, rotate = 0,
     prevX = 0, prevY = 0, prevZ = 0,
-    frame = 0, initYPos = 0, //-15
+    frame = 0,
 	orientation = new Quaternion(),
-	touchSphere = new Sphere(undefined, 10),
-    torso, probe, correctProbe, heart;
+	touchSphere = new Sphere( undefined, 10),
+    torso, probe, correctProbe;
 
 let aquiredImage = {
 	pitch: 0,
@@ -39,7 +38,9 @@ let aquiredImage = {
 	z_0: 0
 }
 
+
 const w = new Worker('./sectorViewWorker.js');
+
 const canvas = document.getElementById('slice');
 const ctx = canvas.getContext('2d');
 	  ctx.fillStyle = 'black';
@@ -67,7 +68,7 @@ const judge = new Judge(apicalRotX, apicalRotY, apicalRotZ, xDim/2, zDim/2);
 const raycaster = new Raycaster(),
       mouse = new Vector2();
 
-const bodyView = document.getElementById('container'),
+const bodyView = document.getElementById('bodyView'),
 	  correctButton = document.getElementById('correct'),
 	  displayBg = document.getElementById('displayBg'),
 	  sectorIcon = document.getElementById('sectorIcon'),
@@ -83,6 +84,7 @@ const loadingBar = createLoadingBar("#loading"),
       controls = createControls(camera, bodyView),
       probeGUI = createGUI();
 
+
 document.getElementById('tryAgain').addEventListener('click', ()=>{
 	status.style.opacity = '1';
 	bodyView.classList.remove('adjust-width');
@@ -90,6 +92,12 @@ document.getElementById('tryAgain').addEventListener('click', ()=>{
 
 	displayBg.style.borderColor = '#2861bf'; 
 	correctButton.style.background = "rgb(14, 206, 14, 0.25)";
+
+	correctButton.style.cssText = `
+		#correct:hover {
+			background-color: rgba(11, 99, 11, 0.562);
+		}`;
+
 	objectiveSign.childNodes[0].childNodes[0].textContent = 'Find the Apical Four Chamber View';
 	objectiveSign.style.background = 'rgb(40, 97, 191, 0.25)';
 	lock = false;
@@ -102,28 +110,16 @@ document.getElementById('tryAgain').addEventListener('click', ()=>{
 	correctProbe.hide(); 
 });
 
-// Url to send data to our google form (does not work at the moment)
-// const url = 'https://script.google.com/macros/s/AKfycbzcDtks2wWQFgxzwN1ZuN27xsdmIYGPqc7kZRHZXBCEX5wy_86x/exec';
-
-// document.getElementById('accept').addEventListener('click', () => {
-	
-// 	fetch(url, {
-// 			method: 'POST',
-// 			body: JSON.stringify({orientation: 0, position: 0}), 
-// 			mode: 'no-cors'
-// 		}).then( (res) => {
-// 			console.log(res);
-// 		})
-// 		console.log('accept clicked');
-// })
-
 correctButton.addEventListener('click', ()=>{
 	
 	if(correct === false){
 		displayBg.style.borderColor = "#0ece0e";
-		objectiveSign.childNodes[0].childNodes[0].textContent = 'Apical Four Chamber';
-		objectiveSign.style.background = 'rgb(14, 206, 14, 0.25)';
-		correctButton.style.background = "rgb(14, 206, 14)";
+		objectiveSign.childNodes[0].childNodes[0].textContent = 'Correct View';
+
+		objectiveSign.style.backgroundColor = 'rgba(14, 206, 14, 0.25)';
+		
+		correctButton.style.backgroundColor = "rgb(14, 206, 14)";
+
 		pitch = 0, tilt = 0, rotate = 0;
 		x_0 = xDim/2, z_0 = zDim/2;
 		correct = true;
@@ -132,9 +128,16 @@ correctButton.addEventListener('click', ()=>{
 	}else if(correct === true){
 		displayBg.style.borderColor = "#2861bf";
 		objectiveSign.childNodes[0].childNodes[0].textContent = 'Aquired View';
-		objectiveSign.style.background = 'rgb(40, 97, 191, 0.25)';
+		objectiveSign.style.backgroundColor = 'rgba(40, 97, 191, 0.25)';
 		({pitch, tilt, rotate, x_0, z_0} = aquiredImage);
-		correctButton.style.background = "rgb(14, 206, 14, 0.25)";
+		
+		correctButton.style.backgroundColor = "rgba(14, 206, 14, 0.25)";
+
+		correctButton.style.cssText = `
+			#correct:hover {
+				background-color: rgba(11, 99, 11, 0.562);
+			}`;
+
 		correct = false;
 		correctProbe.transparency(true);
 		probe.transparency(false);
@@ -167,7 +170,6 @@ function adjustRenderer(){
 	renderer.setSize(bodyView.offsetWidth, bodyView.offsetHeight);
 }	
 
-//let loadingAnimation = false;
 const objects = 51;
 let count = 0;
 let res = {};
@@ -186,7 +188,8 @@ function updateProgress(){
 		// Run the application
 		run();
 		document.getElementById('loadingScreen').style.display = 'none';
-		document.getElementById('simulator').style.setProperty('visibility', 'visible');
+		document.getElementById('simulator').style.visibility = 'visible';
+		document.getElementById('footer').style.display = 'none';
 	}
 }
 
@@ -206,10 +209,14 @@ function animate() {
 		 frame = 0;
 	}
 
-	const q1 = orientation.setFromEuler(new Euler(pitch, tilt, rotate + Math.PI/2, 'ZYX'));
-	w.postMessage({quaternion: q1, x: z_0, y: y_0, z: x_0, frame: frame});
+	w.postMessage({
+		quaternion: orientation.setFromEuler(new Euler(pitch, tilt, rotate + Math.PI/2, 'ZYX')), 
+		x: z_0, 
+		y: y_0, 
+		z: x_0, 
+		frame: frame
+	});
 
-	//heart.slice(orientation.setFromEuler(new Euler(pitch, tilt, rotate + Math.PI/2, 'ZYX')), z_0, y_0, x_0, frame);
 	frame++;
 
 	renderer.clear();
@@ -334,7 +341,6 @@ function run() {
     torso = new Torso({body: res.torsoGeometry, heart: res.heartGeometry}, scene);
 	probe = new Probe(probeGeometry1, scene, 0xa1a2a3, 0x2861bf);
 	correctProbe = new Probe(probeGeometry2, scene, 0xece0e, 0xece0e);
-	//heart = new SectorView(res.frames, {x: xDim, y: yDim, z: zDim});
 
 	// Place the correct probe example on body
 	correctProbe.setPosition(apicalRegion.center);
